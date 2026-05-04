@@ -113,64 +113,15 @@ export default function ProjectDetailPage({ params }: Props) {
         <h2 className="font-orbitron font-bold text-lg text-white mb-5">Architecture</h2>
         <p className="text-cosmic-muted text-sm leading-relaxed mb-6">{project.architecture}</p>
 
-        {/* Visual arch diagram */}
-        <div
-          className="rounded-xl p-6 font-mono text-xs leading-loose overflow-x-auto"
-          style={{ background: 'rgba(0,0,0,0.4)', border: '0.5px solid rgba(0,229,255,0.12)' }}
-        >
-          {project.slug === 'job-portal' && (
-            <pre style={{ color: '#7B82A8', whiteSpace: 'pre' }}>{`
-  ┌─────────────────┐      ┌──────────────────────┐
-  │   React.js UI   │─────▶│  Node.js / Express   │
-  │  (TypeScript)   │      │     REST API          │
-  └─────────────────┘      └────────┬─────────────┘
-                                    │
-                     ┌──────────────┼──────────────┐
-                     ▼              ▼               ▼
-              ┌──────────┐  ┌──────────┐   ┌──────────────┐
-              │  MongoDB  │  │  JWT /   │   │  FastAPI AI  │
-              │   (data)  │  │  Auth    │   │  Microservice│
-              └──────────┘  └──────────┘   └──────┬───────┘
-                                                   │
-                                          ┌────────▼───────┐
-                                          │ LangChain +    │
-                                          │ Google Gemini  │
-                                          └────────────────┘
-            `}</pre>
-          )}
-          {project.slug === 'ecommerce-platform' && (
-            <pre style={{ color: '#7B82A8', whiteSpace: 'pre' }}>{`
-  ┌─────────────────┐      ┌──────────────────────┐
-  │  HTTP Client    │─────▶│  Spring Boot MVC     │
-  │  (REST calls)   │      │  Controllers / APIs  │
-  └─────────────────┘      └────────┬─────────────┘
-                                    │
-                     ┌──────────────┼──────────────┐
-                     ▼              ▼               ▼
-              ┌──────────┐  ┌──────────┐   ┌──────────────┐
-              │Spring    │  │Hibernate │   │ PostgreSQL   │
-              │Security  │  │  ORM     │──▶│  Database    │
-              │(JWT/RBAC)│  │ Entities │   │  (indexed)   │
-              └──────────┘  └──────────┘   └──────────────┘
-            `}</pre>
-          )}
-          {project.slug === 'hospital-management' && (
-            <pre style={{ color: '#7B82A8', whiteSpace: 'pre' }}>{`
-  ┌─────────────────┐      ┌──────────────────────┐
-  │   React.js UI   │─────▶│  Express.js API      │
-  │  (Dashboard)    │      │  (JWT Middleware)     │
-  └─────────────────┘      └────────┬─────────────┘
-                                    │
-                     ┌──────────────┼──────────────┐
-                     ▼              ▼               ▼
-              ┌──────────┐  ┌──────────┐   ┌──────────────┐
-              │  MongoDB  │  │  RBAC    │   │  bcrypt +    │
-              │(patients, │  │ Filter   │   │  JWT Auth    │
-              │  users)   │  │ Layer    │   │              │
-              └──────────┘  └──────────┘   └──────────────┘
-            `}</pre>
-          )}
-        </div>
+        {/* Visual arch diagram — rendered from project data, no hardcoding needed */}
+        {project.architectureDiagram && (
+          <div
+            className="rounded-xl p-6 font-mono text-xs leading-loose overflow-x-auto"
+            style={{ background: 'rgba(0,0,0,0.4)', border: '0.5px solid rgba(0,229,255,0.12)' }}
+          >
+            <pre style={{ color: '#7B82A8', whiteSpace: 'pre' }}>{project.architectureDiagram}</pre>
+          </div>
+        )}
       </div>
 
       {/* Challenges */}

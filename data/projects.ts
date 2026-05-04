@@ -11,6 +11,7 @@ export interface Project {
   features: string[]
   challenges: string
   architecture: string
+  architectureDiagram?: string   // optional ASCII diagram stored in data
   featured?: boolean
 }
 
@@ -43,6 +44,23 @@ export const projects: Project[] = [
       'Integrating LangChain with Google Gemini required careful prompt engineering and context window management to produce consistent outputs across varied job descriptions. ChromaDB vector search needed fine-tuning to return semantically relevant job matches without false positives.',
     architecture:
       'React frontend → Node.js/Express REST API → MongoDB for user/job data. A separate FastAPI microservice handles all AI operations (LangChain + Gemini + ChromaDB), called by the Node.js backend. JWT tokens secure all routes. The AI service is stateless and horizontally scalable independently of the main API.',
+    architectureDiagram: `
+  ┌─────────────────┐      ┌──────────────────────┐
+  │   React.js UI   │─────▶│  Node.js / Express   │
+  │  (TypeScript)   │      │     REST API          │
+  └─────────────────┘      └────────┬─────────────┘
+                                    │
+                     ┌──────────────┼──────────────┐
+                     ▼              ▼               ▼
+              ┌──────────┐  ┌──────────┐   ┌──────────────┐
+              │  MongoDB  │  │  JWT /   │   │  FastAPI AI  │
+              │   (data)  │  │  Auth    │   │  Microservice│
+              └──────────┘  └──────────┘   └──────┬───────┘
+                                                   │
+                                          ┌────────▼───────┐
+                                          │ LangChain +    │
+                                          │ Google Gemini  │
+                                          └────────────────┘`,
   },
   {
     slug: 'vibekit-studio',
@@ -239,6 +257,19 @@ export const projects: Project[] = [
       'Designing a normalized PostgreSQL schema handling inventory, users, orders, and products simultaneously while maintaining fast query times required careful indexing. Transactional integrity during concurrent checkouts solved using Spring @Transactional with database-level locking.',
     architecture:
       'Spring Boot MVC exposing REST endpoints. Spring Security intercepts all requests, validates JWT tokens, and enforces RBAC. Hibernate ORM maps Java entities to PostgreSQL tables with foreign keys and composite indexes for efficient joins.',
+    architectureDiagram: `
+  ┌─────────────────┐      ┌──────────────────────┐
+  │  HTTP Client    │─────▶│  Spring Boot MVC     │
+  │  (REST calls)   │      │  Controllers / APIs  │
+  └─────────────────┘      └────────┬─────────────┘
+                                    │
+                     ┌──────────────┼──────────────┐
+                     ▼              ▼               ▼
+              ┌──────────┐  ┌──────────┐   ┌──────────────┐
+              │Spring    │  │Hibernate │   │ PostgreSQL   │
+              │Security  │  │  ORM     │──▶│  Database    │
+              │(JWT/RBAC)│  │ Entities │   │  (indexed)   │
+              └──────────┘  └──────────┘   └──────────────┘`,
   },
   {
     slug: 'hospital-management',
@@ -265,6 +296,19 @@ export const projects: Project[] = [
       'Each role needed its own scoped API responses. Solved using middleware-level data filtering based on the decoded JWT role claim so a nurse never receives doctor-level patient data payloads.',
     architecture:
       'React frontend → Express.js REST API with JWT middleware injecting role context → MongoDB for patient, user, and appointment documents. Role-based data filtering at the controller layer before sending responses.',
+    architectureDiagram: `
+  ┌─────────────────┐      ┌──────────────────────┐
+  │   React.js UI   │─────▶│  Express.js API      │
+  │  (Dashboard)    │      │  (JWT Middleware)     │
+  └─────────────────┘      └────────┬─────────────┘
+                                    │
+                     ┌──────────────┼──────────────┐
+                     ▼              ▼               ▼
+              ┌──────────┐  ┌──────────┐   ┌──────────────┐
+              │  MongoDB  │  │  RBAC    │   │  bcrypt +    │
+              │(patients, │  │ Filter   │   │  JWT Auth    │
+              │  users)   │  │ Layer    │   │              │
+              └──────────┘  └──────────┘   └──────────────┘`,
   },
   {
     slug: 'expenses-tracker',
